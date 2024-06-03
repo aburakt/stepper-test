@@ -4,32 +4,27 @@ import { Button } from 'primereact/button';
 import 'primereact/resources/primereact.min.css'; //core css
 import 'primereact/resources/themes/lara-light-indigo/theme.css'; //theme
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
 import FormComponent from './components/FormComponent';
 import SecondStepComponent from './components/SecondStepComponent';
 import SummaryComponent from './components/SummaryComponent';
-import { formRowsState } from './states/atoms';
 
 function App() {
   const [step, setStep] = useState(1);
-
-  const consoleFormRows = useRecoilValue(formRowsState);
-  console.log('consoleFormRows', consoleFormRows)
 
   const handleNextStep = () => setStep(step + 1);
   const handlePreviousStep = () => setStep(step - 1);
 
   return (
-    <div className="p-fluid">
+    <div className="app-container p-fluid">
       {step === 1 && <FormComponent />}
       {step === 2 && <SecondStepComponent />}
       {step === 3 && <SummaryComponent />}
-      <div className="p-mt-4">
-        {step > 1 && <Button label="Previous" onClick={handlePreviousStep} />}
-        {step < 3 && <Button label="Next" onClick={handleNextStep} />}
+      <div className="navigation-buttons">
+        {step > 1 && <Button label="Previous" onClick={handlePreviousStep} className="p-button-secondary w-3" />}
+        {step < 3 && <Button label="Next" onClick={handleNextStep} className="p-button-primary w-3" />}
       </div>
     </div>
-  )
+  );
 }
 
 export default App

@@ -1,0 +1,18 @@
+/* FormComponent.css */
+.form-container {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #f9f9f9;
+  position: relative;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.button-icon {
+  min-width: 40px;
+}

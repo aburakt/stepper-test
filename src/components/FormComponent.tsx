@@ -1,7 +1,9 @@
 // FormComponent.tsx
+import 'primeicons/primeicons.css';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Dropdown } from 'primereact/dropdown';
+import 'primereact/resources/primereact.min.css';
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import { FormRow, formRowsState } from '../states/atoms';
@@ -35,10 +37,22 @@ const FormComponent: React.FC = () => {
     }
   };
 
+  const handleAddEmptyRow = () => {
+    const newRow: FormRow = {
+      id: rows.length + 1,
+      firstDropdown: null,
+      secondDropdown: null,
+      thirdDropdown: [],
+      startDate: null,
+      endDate: null,
+    };
+    setRows([...rows, newRow]);
+  };
+
   return (
-    <div className='flex'>
+    <div className="form-container">
       {rows.map((row, index) => (
-        <div key={row.id} className="p-grid p-align-center p-mb-2">
+        <div key={row.id} className="form-row p-grid p-align-center p-mb-2">
           <Dropdown
             value={row.firstDropdown}
             options={[{ label: 'First 1', value: 'First 1' }, { label: 'First 2', value: 'First 2' }]}
@@ -65,20 +79,21 @@ const FormComponent: React.FC = () => {
           <Calendar value={row.startDate} disabled className="p-col" />
           <Calendar value={row.endDate} disabled className="p-col" />
           <Button
-            label="Copy"
             icon="pi pi-copy"
             onClick={() => handleAddRow(index)}
-            className="p-col"
+            className="p-col button-icon"
           />
           <Button
-            label="Delete"
             icon="pi pi-trash"
             onClick={() => handleRemoveRow(index)}
-            className="p-col"
+            className="p-col button-icon"
             disabled={rows.length === 1}
           />
         </div>
       ))}
+      <div className="add-empty-row">
+        <Button label="Add Empty Row" size='small' className='w-3 m-2' onClick={handleAddEmptyRow} />
+      </div>
     </div>
   );
 };
