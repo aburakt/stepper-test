@@ -3,6 +3,7 @@ import 'primeicons/primeicons.css';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Dropdown } from 'primereact/dropdown';
+import { MultiSelect } from 'primereact/multiselect';
 import 'primereact/resources/primereact.min.css';
 import React from 'react';
 import { useRecoilState } from 'recoil';
@@ -50,6 +51,7 @@ const FormComponent: React.FC = () => {
   };
 
   return (
+    
     <div className="form-container">
       {rows.map((row, index) => (
         <div key={row.id} className="form-row p-grid p-align-center p-mb-2">
@@ -67,14 +69,13 @@ const FormComponent: React.FC = () => {
             placeholder="Select Second"
             className="p-col"
           />
-          <Dropdown
+          <MultiSelect
             value={row.thirdDropdown}
             options={row.secondDropdown === 'Second 1' ? [{ label: 'Third 1', value: 'Third 1' }, { label: 'Third 2', value: 'Third 2' }] : [{ label: 'Third 3', value: 'Third 3' }, { label: 'Third 4', value: 'Third 4' }]}
             onChange={(e) => handleDropdownChange(index, 'thirdDropdown', e.value)}
             placeholder="Select Third"
             className="p-col"
             disabled={!row.secondDropdown}
-            multiple
           />
           <Calendar value={row.startDate} disabled className="p-col" />
           <Calendar value={row.endDate} disabled className="p-col" />
@@ -92,7 +93,7 @@ const FormComponent: React.FC = () => {
         </div>
       ))}
       <div className="add-empty-row">
-        <Button label="Add Empty Row" size='small' className='w-3 m-2' onClick={handleAddEmptyRow} />
+        <Button label="Add Empty Row" icon="pi pi-plus" iconPos='left' size='small' className="w-3 m-3 align-items-center" onClick={handleAddEmptyRow} />
       </div>
     </div>
   );

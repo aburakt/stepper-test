@@ -1,16 +1,37 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-//@ts-nocheck
+// SecondStepComponent.tsx
 import 'primeicons/primeicons.css';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Dropdown } from 'primereact/dropdown';
+import { MultiSelect } from 'primereact/multiselect';
 import 'primereact/resources/primereact.min.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { formRowsState } from '../states/atoms';
+import { FormRow, formRowsState } from '../states/atoms';
 
 const SecondStepComponent: React.FC = () => {
   const [rows, setRows] = useRecoilState(formRowsState);
+
+  useEffect(() => {
+    const newRows: FormRow[] = [];
+    rows.forEach(row => {
+      if (row.thirdDropdown.length > 1) {
+        row.thirdDropdown.forEach(value => {
+          newRows.push({
+            id: newRows.length + 1,
+            firstDropdown: row.firstDropdown,
+            secondDropdown: row.secondDropdown,
+            thirdDropdown: [value],
+            startDate: null,
+            endDate: null,
+          });
+        });
+      } else {
+        newRows.push(row);
+      }
+    });
+    setRows(newRows);
+  }, []);
 
   const handleDateChange = (index: number, key: 'startDate' | 'endDate', value: Date) => {
     const updatedRows = rows.map((row, i) =>
@@ -37,13 +58,12 @@ const SecondStepComponent: React.FC = () => {
             className="p-col"
             disabled
           />
-          <Dropdown
+          <MultiSelect
             value={row.thirdDropdown}
-            options={row.secondDropdown === 'Second 1' ? [{ label: 'Third 1', value: 'Third 1' }, { label: 'Third 2', value: 'Third 2' }] : [{ label: 'Third 3', value: 'Third 3' }, { label: 'Third 4', value: 'Third 4' }]}
+            options={row.secondDropdown === 'Second 1' ? [{ label: 'Third 1', value: 'Third 1' }, { label: 'Third 2', value: 'Third 3' }, { label: 'Third 2', value: 'Third 3' }] : [{ label: 'Third 4', value: 'Third 4' }, { label: 'Third 5', value: 'Third 5' }, { label: 'Third 6', value: 'Third 6' }]}
             placeholder="Select Third"
             className="p-col"
             disabled
-            multiple
           />
           <Calendar
             value={row.startDate}
