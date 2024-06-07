@@ -1,4 +1,3 @@
-// SecondStepComponent.tsx
 import 'primeicons/primeicons.css';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
@@ -33,17 +32,29 @@ const SecondStepComponent: React.FC = () => {
     setRows(newRows);
   }, []);
 
-  const handleDateChange = (index: number, key: 'startDate' | 'endDate', value: Date) => {
+  const handleDateChange = (index: number, key: 'startDate' | 'endDate', value: Date | unknown) => {
     const updatedRows = rows.map((row, i) =>
       i === index ? { ...row, [key]: value } : row
     );
     setRows(updatedRows);
   };
 
+  const handleAddEmptyRow = () => {
+    const newRow: FormRow = {
+      id: rows.length + 1,
+      firstDropdown: null,
+      secondDropdown: null,
+      thirdDropdown: [],
+      startDate: null,
+      endDate: null,
+    };
+    setRows([...rows, newRow]);
+  };
+
   return (
     <div className="form-container">
       {rows.map((row, index) => (
-        <div key={row.id} className="form-row p-grid p-align-center p-mb-2">
+        <div key={row.id} className="form-row p-grid p-align-center p-mb-2 my-2">
           <Dropdown
             value={row.firstDropdown}
             options={[{ label: 'First 1', value: 'First 1' }, { label: 'First 2', value: 'First 2' }]}
@@ -90,7 +101,7 @@ const SecondStepComponent: React.FC = () => {
         </div>
       ))}
       <div className="add-empty-row">
-        <Button label="Add Empty Row" onClick={() => { }} disabled />
+        <Button label="Add Empty Row" icon="pi pi-plus" iconPos='left' size='small' className="w-11rem my-3" onClick={handleAddEmptyRow} />
       </div>
     </div>
   );
